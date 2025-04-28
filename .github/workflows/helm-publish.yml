@@ -7,6 +7,30 @@ on:
       - "helm/**"
       - ".github/workflows/helm-publish.yml"
 jobs:
-  Release:
-    name: 'Helm'
-    uses: curium-rocks/flows/.github/workflows/helm-release.yml@main
+  release:
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # need full history for chart releaser to detect changes and release charts
+      - name: Configure Git
+        run: |
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+      - name: Install Helm
+        uses: azure/setup-helm@v4
+        with:
+          version: v3.9.1
+      - name: Add Helm Repos
+        run: |
+          helm repo add bitnami https://charts.bitnami.com/bitnami
+          helm repo update
+      - name: Run chart-releaser
+        uses: helm/chart-releaser-action@main
+        env:
+          CR_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+        with:
+          charts_dir: .
