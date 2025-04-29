@@ -18,7 +18,8 @@
         ],
         "fileFilters": ["**/Chart.yaml"],
         "executionMode": "branch"
-      }
+      },
+      "addLabels": ["{{{parentDir}}}"]
     },
     {
       "matchPackagePatterns": [".*"],
