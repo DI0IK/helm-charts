@@ -547,7 +547,7 @@ addons:
     args: []
 
     # -- Provide a customized vpn configuration file to be used by the VPN.
-    configFile:# |-
+    configFile: # |-
       # Some Example Config
       # remote greatvpnhost.com 8888
       # auth-user-pass
@@ -561,12 +561,12 @@ addons:
     # @default -- See values.yaml
     scripts:
       # @default -- See below
-      up:# |-
+      up: # |-
         # #!/bin/bash
         # echo "connected" > /shared/vpnstatus
 
       # @default -- See below
-      down:# |-
+      down: # |-
         # #!/bin/bash
         # echo "disconnected" > /shared/vpnstatus
 
