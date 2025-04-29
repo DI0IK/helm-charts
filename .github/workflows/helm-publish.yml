@@ -27,10 +27,11 @@ jobs:
       - name: Add Helm Repos
         run: |
           helm repo add bitnami https://charts.bitnami.com/bitnami
+          helm repo add di0ik https://di0ik.github.io/helm-charts
           helm repo update
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@main
         env:
-          CR_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
         with:
-          charts_dir: 'helm'
+          charts_dir: "helm"
