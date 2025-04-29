@@ -20,10 +20,6 @@
         "executionMode": "branch"
       },
       "addLabels": ["{{{parentDir}}}"]
-    },
-    {
-      "matchPackagePatterns": [".*"],
-      "minimumReleaseAge": "12 hours"
     }
   ],
   "customManagers": [
