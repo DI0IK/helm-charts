@@ -6,7 +6,7 @@
   "username": "renovate",
   "repositories": ["di0ik/helm-charts"],
   "onboarding": false,
-  "allowedPostUpgradeCommands": ["^scripts"],
+  "allowedPostUpgradeCommands": [".*"],
   "allowPostUpgradeCommandTemplating": true,
   "packageRules": [
     {
@@ -34,5 +34,6 @@
         "#\\s?renovate: image=(?<depName>.*?)\\s?appVersion:\\s?\\\"?(?<currentValue>[\\w+\\.\\-]*)"
       ]
     }
-  ]
+  ],
+  "bumpVersion": "patch"
 }
