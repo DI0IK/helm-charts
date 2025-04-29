@@ -11,7 +11,7 @@ sources:
   - https://github.com/paperless-ngx/paperless-ngx
 dependencies:
   - name: common
-    repository: httsp://di0ik.github.io/helm-charts
+    repository: https://di0ik.github.io/helm-charts
     version: 1.0.0
   - name: postgresql
     repository: https://charts.bitnami.com/bitnami
