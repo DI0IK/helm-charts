@@ -3,7 +3,7 @@
   "extends": ["config:recommended"],
   "platform": "github",
   "gitAuthor": "Renovate Bot <bot@renovateapp.com>",
-  "username": "renovate",
+  "username": "di0ik",
   "repositories": ["di0ik/helm-charts"],
   "onboarding": false,
   "allowedPostUpgradeCommands": [".*"],
