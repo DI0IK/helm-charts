@@ -1,8 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:recommended"
-  ],
+  "extends": ["config:recommended"],
   "packageRules": [
     {
       "description": "Bump helm chart versions by a patch when updating values files. Digests, pins, rollbacks, replacements and pinDigest updates are deliberately ignored since in our use case, these need a manual decision about the version bump for the chart. This can be removed when https://github.com/renovatebot/renovate/issues/8231 is implemented and enabled.",
@@ -17,15 +15,10 @@
         "commands": [
           "bash scripts/bump-chart-version.sh '{{{parentDir}}}' '{{{isMajor}}}' '{{{isMinor}}}' '{{{isPatch}}}'"
         ],
-        "fileFilters": [
-          "**/Chart.yaml"
-        ],
+        "fileFilters": ["**/Chart.yaml"],
         "executionMode": "branch"
       },
-      "addLabels": [
-        "{{{parentDir}}}",
-        "{{{updateType}}}"
-      ],
+      "addLabels": ["{{{parentDir}}}", "{{{updateType}}}"],
       "ignoreUnstable": true
     }
   ],
@@ -33,12 +26,11 @@
     {
       "customType": "regex",
       "datasourceTemplate": "docker",
-      "fileMatch": [
-        "/Chart\\.yaml$"
-      ],
+      "fileMatch": ["/Chart\\.yaml$"],
       "matchStrings": [
         "#\\s?renovate: image=(?<depName>.*?)\\s?appVersion:\\s?\\\"?(?<currentValue>[\\w+\\.\\-]*)"
       ]
     }
-  ]
+  ],
+  "commitMessagePrefix": "[{{{parentDir}}}]"
 }
