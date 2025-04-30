@@ -3,6 +3,6 @@
   "gitAuthor": "Renovate Bot <bot@renovateapp.com>",
   "repositories": ["di0ik/helm-charts"],
   "onboarding": false,
-  "allowedPostUpgradeCommands": [".*"],
-  "allowPostUpgradeCommandTemplating": true
+  "allowedCommands": [".*"],
+  "allowCommandTemplating": true
 }
