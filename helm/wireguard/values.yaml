@@ -1,0 +1,113 @@
+#
+# IMPORTANT NOTE
+#
+# This chart inherits from our common library chart. You can check the default values/options here:
+# https://github.com/di0ik/helm-charts/tree/main/helm/common/values.yaml
+#
+
+image:
+  # -- image repository
+  repository: ghcr.io/di0ik/wireguard
+  # -- image pull policy
+  pullPolicy: IfNotPresent
+  # -- image tag
+  # @default -- chart.appVersion
+  tag:
+
+# -- Configure configMaps for the chart here.
+# Additional configMaps can be added by adding a dictionary key similar to the 'config' object.
+# @default -- See values.yaml
+configmap:
+  config:
+    # -- Enables or disables the configMap
+    enabled: false
+    # -- configMap data content. Helm template enabled.
+    data:
+      # -- WireGuard configuration
+      wg0.conf: |
+        [Interface]
+        Address = 10.200.200.1/24
+        PostUp =   iptables -I FORWARD 1 -i wg0 -j ACCEPT; iptables -I FORWARD 1 -o wg0 -j ACCEPT; iptables -t nat -I POSTROUTING 1 -s 10.200.200.0/24 -o eth0 -j MASQUERADE
+        PostDown = iptables -D FORWARD -i wg0 -j ACCEPT;   iptables -D FORWARD -o wg0 -j ACCEPT; iptables -t nat -D POSTROUTING -s 10.200.200.0/24 -o eth0 -j MASQUERADE
+        ListenPort = 51820
+        PrivateKey = [Server's private key]
+
+        [Peer]
+        # friendly_name = Client 1
+        PublicKey = [Client's public key]
+        AllowedIPs = 10.200.200.2/32
+        PresharedKey = [Pre-shared key, same for server and client]
+
+        [Peer]
+        # friendly_name = Client 2
+        PublicKey = [Client's public key]
+        AllowedIPs = 10.200.200.2/32
+        PresharedKey = [Pre-shared key, same for server and client]
+
+# -- Configures service settings for the chart.
+# @default -- See values.yaml
+service:
+  main:
+    ports:
+      wg:
+        port: 51820
+        protocol: UDP
+
+# -- Configures persistence for data.
+# @default -- See values.yaml
+persistence:
+  config:
+    enabled: true
+    type: configMap
+    mountPath: /etc/wireguard
+  shared:
+    enabled: true
+    type: emptyDir
+    mountPath: /run
+    medium: Memory
+    sizeLimit: 1Gi
+
+# -- Specify any additional containers here as dictionary items. Each additional container should have its own key.
+# Helm templates can be used.
+additionalContainers:
+  wireguard-exporter:
+    image: docker.io/mindflavor/prometheus-wireguard-exporter:3.6.6
+    imagePullPolicy: IfNotPresent
+    args:
+      - -a false
+    ports:
+      - name: metrics
+        containerPort: 9586
+        protocol: TCP
+    env:
+      # -- Enable or disable the verbose mode
+      - name: PROMETHEUS_WIREGUARD_EXPORTER_VERBOSE_ENABLED
+        value: "false"
+      # -- Prepends sudo to wg commands
+      - name: PROMETHEUS_WIREGUARD_EXPORTER_PREPEND_SUDO_ENABLED
+        value: "false"
+      # -- Specify the service address. This is the address your Prometheus instance should point to
+      - name: PROMETHEUS_WIREGUARD_EXPORTER_ADDRESS
+        value: "0.0.0.0"
+      # -- This flag adds the friendly_name attribute or the friendly_json attributes to the exported entries. See [Friendly tags](https://mindflavor.github.io/prometheus_wireguard_exporter/#friendly-tags) for more details. Multiple files are allowed (they will be merged as a single file in memory so avoid duplicates)
+      - name: PROMETHEUS_WIREGUARD_EXPORTER_CONFIG_FILE_NAMES
+        value: "/etc/wireguard/wg0.conf"
+      # -- Enable the allowed ip + subnet split mode for the labels
+      - name: PROMETHEUS_WIREGUARD_EXPORTER_SEPARATE_ALLOWED_IPS_ENABLED
+        value: "true"
+      # -- Exports peer’s remote ip and port as labels (if available)
+      - name: PROMETHEUS_WIREGUARD_EXPORTER_EXPORT_REMOTE_IP_AND_PORT_ENABLED
+        value: "true"
+      # -- Specifies the interface(s) passed to the wg show <interface> dump parameter. Multiple parameters are allowed
+      - name: PROMETHEUS_WIREGUARD_EXPORTER_INTERFACES
+        value: "all"
+      # -- Adds the wireguard_latest_handshake_delay_seconds metric that automatically calculates the seconds passed since the last handshake
+      - name: EXPORT_LATEST_HANDSHAKE_DELAY
+        value: "true"
+    volumeMounts:
+      - name: config
+        mountPath: /etc/wireguard
+        readOnly: true
+      - name: shared
+        mountPath: /run
+        readOnly: false
