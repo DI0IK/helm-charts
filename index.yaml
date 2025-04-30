@@ -78,23 +78,6 @@ entries:
     urls:
     - https://github.com/DI0IK/helm-charts/releases/download/paperless-1.0.0/paperless-1.0.0.tgz
     version: 1.0.0
-  - apiVersion: v2
-    appVersion: main
-    created: "2025-04-30T13:19:20.881239292Z"
-    dependencies:
-    - name: common
-      repository: https://di0ik.github.io/helm-charts
-      version: 1.1.0
-    description: Paperless - Index and archive all of your scanned paper documents
-    digest: 8f5fb63b832c41d95f702095fc7da7983770802eeed0ea18364e8bab56a88c2b
-    home: https://github.com/di0ik/helm-charts/tree/main/helm/paperless
-    kubeVersion: '>=1.16.0-0'
-    name: paperless
-    sources:
-    - https://github.com/paperless-ngx/paperless-ngx
-    urls:
-    - https://github.com/DI0IK/helm-charts/releases/download/paperless-0.0.1/paperless-0.0.1.tgz
-    version: 0.0.1
   wireguard:
   - apiVersion: v2
     appVersion: main
