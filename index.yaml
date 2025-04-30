@@ -95,4 +95,20 @@ entries:
     urls:
     - https://github.com/DI0IK/helm-charts/releases/download/paperless-0.0.1/paperless-0.0.1.tgz
     version: 0.0.1
-generated: "2025-04-30T13:19:20.881255272Z"
+  wireguard:
+  - apiVersion: v2
+    appVersion: main
+    created: "2025-04-30T13:20:00.798983206Z"
+    dependencies:
+    - name: common
+      repository: https://di0ik.github.io/helm-charts
+      version: 1.1.0
+    description: A Helm chart for WireGuard
+    digest: 152bf6f1a23b2ecda8dd089adb9455a0fb73213ae1340d494b19ef4ee003f338
+    home: https://github.com/di0ik/helm-charts/tree/main/helm/wireguard
+    kubeVersion: '>=1.16.0-0'
+    name: wireguard
+    urls:
+    - https://github.com/DI0IK/helm-charts/releases/download/wireguard-0.0.1/wireguard-0.0.1.tgz
+    version: 0.0.1
+generated: "2025-04-30T13:20:00.79899562Z"
