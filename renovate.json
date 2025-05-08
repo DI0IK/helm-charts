@@ -16,16 +16,18 @@
         ],
         "fileFilters": ["**/Chart.yaml"],
         "executionMode": "branch"
-      }
+      },
+      "enabled": true
     },
     { 
       "groupName": "Helm Chart: {{{parentDir}}}",
-      "matchPackageNames": [
+      "matchUpdateTypes": [
         "*"
       ],
       "matchFileNames": ["helm/**"],
       "addLabels": ["{{{parentDir}}}", "{{{updateType}}}"],
-      "ignoreUnstable": true
+      "ignoreUnstable": true,
+      "enabled": true
     }
   ],
   "customManagers": [
