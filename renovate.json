@@ -10,7 +10,6 @@
         "helm-values",
         "helmv3"
       ],
-      "groupName": "Helm Chart: {{{parentDir}}}",
       "postUpgradeTasks": {
         "commands": [
           "bash scripts/bump-chart-version.sh '{{{parentDir}}}' '{{{isMajor}}}' '{{{isMinor}}}' '{{{isPatch}}}'"
@@ -20,6 +19,13 @@
       },
       "addLabels": ["{{{parentDir}}}", "{{{updateType}}}"],
       "ignoreUnstable": true
+    },
+    { 
+      "groupName": "Helm Chart: {{{parentDir}}}",
+      "matchPackageNames": [
+        "*"
+      ],
+      "matchFileNames": ["helm/**"]
     }
   ],
   "customManagers": [
