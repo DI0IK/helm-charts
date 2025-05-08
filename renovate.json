@@ -31,7 +31,7 @@
         "*"
       ],
       "matchFileNames": ["helm/**"],
-      "addLabels": ["{{{parentDir}}}"],
+      "addLabels": ["{{{parentDir}}}", "{{{updateType}}}"],
       "enabled": true
     }
   ],
