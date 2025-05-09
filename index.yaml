@@ -144,6 +144,21 @@ entries:
   wireguard:
   - apiVersion: v2
     appVersion: main
+    created: "2025-05-09T07:43:59.203853184Z"
+    dependencies:
+    - name: common
+      repository: https://di0ik.github.io/helm-charts
+      version: 2.0.0
+    description: A Helm chart for WireGuard
+    digest: 61baf9833432ec86d07a66699ef672df43f1dd7857d181996f7bd1b32dba3b47
+    home: https://github.com/di0ik/helm-charts/tree/main/helm/wireguard
+    kubeVersion: '>=1.16.0-0'
+    name: wireguard
+    urls:
+    - https://github.com/DI0IK/helm-charts/releases/download/wireguard-0.1.0/wireguard-0.1.0.tgz
+    version: 0.1.0
+  - apiVersion: v2
+    appVersion: main
     created: "2025-04-30T13:20:00.798983206Z"
     dependencies:
     - name: common
@@ -157,4 +172,4 @@ entries:
     urls:
     - https://github.com/DI0IK/helm-charts/releases/download/wireguard-0.0.1/wireguard-0.0.1.tgz
     version: 0.0.1
-generated: "2025-05-09T07:11:04.211907095Z"
+generated: "2025-05-09T07:43:59.20387221Z"
