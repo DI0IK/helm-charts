@@ -1,0 +1,107 @@
+{{/* Make sure all variables are set properly */}}
+{{- include "common.values.setup" . }}
+
+{{/* Append the hardcoded settings */}}
+{{- define "wireguard.hardcodedValues" -}}
+configmap:
+  config:
+    enabled: true
+    name: {{ include "common.names.fullname" . }}-config
+    data:
+      wg0.conf: |
+        {{- if .Values.wireguard.config.manualConfig }}
+        {{- .Values.wireguard.config.configContent | indent 8 }}
+        {{- else }}
+
+        {{- if .Values.wireguard.config.autoConfig }}
+        [Interface]
+        Address = {{ .Values.wireguard.config.auto.interface.address | default "10.200.200.1/24" }}
+
+        {{- if .Values.wireguard.config.auto.interface.masquerade }}
+        PostUp = iptables -I FORWARD 1 -i wg0 -j ACCEPT; iptables -I FORWARD 1 -o wg0 -j ACCEPT; iptables -t nat -I POSTROUTING 1 -s {{ .Values.wireguard.config.auto.interface.address | default "10.200.200.1/24" }} -o eth0 -j MASQUERADE
+        PostDown = iptables -D FORWARD -i wg0 -j ACCEPT; iptables -D FORWARD -o wg0 -j ACCEPT; iptables -t nat -D POSTROUTING -s {{ .Values.wireguard.config.auto.interface.address | default "10.200.200.1/24" }} -o eth0 -j MASQUERADE
+        {{- end }}
+
+        ListenPort = {{ .Values.wireguard.config.auto.interface.port | default 51820 }}
+        PrivateKey = {{ .Values.wireguard.config.auto.interface.privateKey | default "[Server's private key]" }}
+
+        {{- range $peer, $peerConfig := .Values.wireguard.config.auto.peers }}
+        [Peer]
+        # friendly_name = {{ $peer }}
+        PublicKey = {{ $peerConfig.publicKey | default "[Client's public key]" }}
+        AllowedIPs = {{ $peerConfig.allowedIPs }}
+        {{- if $peerConfig.presharedKey }}
+        PresharedKey = {{ $peerConfig.presharedKey | default "[Pre-shared key, same for server and client]" }}
+        {{- end }}
+        {{- end }}
+
+        {{- end }}
+        {{- end }}
+
+service:
+  main:
+    ports:
+      wg:
+        port: 51820
+        protocol: UDP
+
+persistence:
+  config:
+    enabled: true
+    type: configMap
+    mountPath: /etc/wireguard
+    name: {{ include "common.names.fullname" . }}-config
+  shared:
+    enabled: true
+    type: emptyDir
+    mountPath: /run
+    medium: Memory
+    sizeLimit: 1Gi
+
+additionalContainers:
+  wireguard-exporter:
+    image: docker.io/mindflavor/prometheus-wireguard-exporter:3.6.6
+    imagePullPolicy: IfNotPresent
+    args:
+      - -a false
+    ports:
+      - name: metrics
+        containerPort: 9586
+        protocol: TCP
+    env:
+      # -- Enable or disable the verbose mode
+      - name: PROMETHEUS_WIREGUARD_EXPORTER_VERBOSE_ENABLED
+        value: "false"
+      # -- Prepends sudo to wg commands
+      - name: PROMETHEUS_WIREGUARD_EXPORTER_PREPEND_SUDO_ENABLED
+        value: "false"
+      # -- Specify the service address. This is the address your Prometheus instance should point to
+      - name: PROMETHEUS_WIREGUARD_EXPORTER_ADDRESS
+        value: "0.0.0.0"
+      # -- This flag adds the friendly_name attribute or the friendly_json attributes to the exported entries. See [Friendly tags](https://mindflavor.github.io/prometheus_wireguard_exporter/#friendly-tags) for more details. Multiple files are allowed (they will be merged as a single file in memory so avoid duplicates)
+      - name: PROMETHEUS_WIREGUARD_EXPORTER_CONFIG_FILE_NAMES
+        value: "/etc/wireguard/wg0.conf"
+      # -- Enable the allowed ip + subnet split mode for the labels
+      - name: PROMETHEUS_WIREGUARD_EXPORTER_SEPARATE_ALLOWED_IPS_ENABLED
+        value: "true"
+      # -- Exports peer’s remote ip and port as labels (if available)
+      - name: PROMETHEUS_WIREGUARD_EXPORTER_EXPORT_REMOTE_IP_AND_PORT_ENABLED
+        value: "true"
+      # -- Specifies the interface(s) passed to the wg show <interface> dump parameter. Multiple parameters are allowed
+      - name: PROMETHEUS_WIREGUARD_EXPORTER_INTERFACES
+        value: "all"
+      # -- Adds the wireguard_latest_handshake_delay_seconds metric that automatically calculates the seconds passed since the last handshake
+      - name: EXPORT_LATEST_HANDSHAKE_DELAY
+        value: "true"
+    volumeMounts:
+      - name: config
+        mountPath: /etc/wireguard
+        readOnly: true
+      - name: shared
+        mountPath: /run
+        readOnly: false
+{{- end -}}
+{{- $_ := mergeOverwrite .Values (include "wireguard.hardcodedValues" . | fromYaml) -}}
+
+{{/* Render the templates */}}
+{{ include "common.all" . }}
