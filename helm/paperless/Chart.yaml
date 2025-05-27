@@ -1,10 +1,10 @@
 ---
 apiVersion: v2
 # renovate: image=ghcr.io/paperless-ngx/paperless-ngx
-appVersion: "2.16.1"
+appVersion: "2.16.2"
 description: Paperless - Index and archive all of your scanned paper documents
 name: paperless
-version: 2.1.0
+version: 2.1.1
 kubeVersion: ">=1.16.0-0"
 home: https://github.com/di0ik/helm-charts/tree/main/helm/paperless
 sources:
@@ -12,12 +12,12 @@ sources:
 dependencies:
   - name: common
     repository: https://di0ik.github.io/helm-charts
-    version: 2.1.0
+    version: 2.1.1
   - name: postgresql
     repository: https://charts.bitnami.com/bitnami
     version: 16.7.4
     condition: postgresql.enabled
   - name: redis
     repository: https://charts.bitnami.com/bitnami
-    version: 21.1.4
+    version: 21.1.7
     condition: redis.enabled
