@@ -69,6 +69,31 @@ entries:
   paperless:
   - apiVersion: v2
     appVersion: 2.16.2
+    created: "2025-05-30T16:22:36.04138708Z"
+    dependencies:
+    - name: common
+      repository: https://di0ik.github.io/helm-charts
+      version: 2.1.1
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 16.7.6
+    - condition: redis.enabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 21.1.11
+    description: Paperless - Index and archive all of your scanned paper documents
+    digest: f31a3be9b8ec01f4f29063e330542f4cbce350b53ffa78b0e28b9420b02a7452
+    home: https://github.com/di0ik/helm-charts/tree/main/helm/paperless
+    kubeVersion: '>=1.16.0-0'
+    name: paperless
+    sources:
+    - https://github.com/paperless-ngx/paperless-ngx
+    urls:
+    - https://github.com/DI0IK/helm-charts/releases/download/paperless-2.1.3/paperless-2.1.3.tgz
+    version: 2.1.3
+  - apiVersion: v2
+    appVersion: 2.16.2
     created: "2025-05-28T06:36:46.656188528Z"
     dependencies:
     - name: common
@@ -245,6 +270,21 @@ entries:
   wireguard:
   - apiVersion: v2
     appVersion: main
+    created: "2025-05-30T16:22:36.151053639Z"
+    dependencies:
+    - name: common
+      repository: https://di0ik.github.io/helm-charts
+      version: 2.1.1
+    description: A Helm chart for WireGuard
+    digest: 667e93d8da563ef2f2f0e35a87d24a38001bff48fc845f03902e6936a042e8d5
+    home: https://github.com/di0ik/helm-charts/tree/main/helm/wireguard
+    kubeVersion: '>=1.16.0-0'
+    name: wireguard
+    urls:
+    - https://github.com/DI0IK/helm-charts/releases/download/wireguard-0.2.0/wireguard-0.2.0.tgz
+    version: 0.2.0
+  - apiVersion: v2
+    appVersion: main
     created: "2025-05-09T07:43:59.203853184Z"
     dependencies:
     - name: common
@@ -273,4 +313,4 @@ entries:
     urls:
     - https://github.com/DI0IK/helm-charts/releases/download/wireguard-0.0.1/wireguard-0.0.1.tgz
     version: 0.0.1
-generated: "2025-05-28T06:36:46.65623213Z"
+generated: "2025-05-30T16:22:36.151102421Z"
