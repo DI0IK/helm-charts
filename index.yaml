@@ -69,6 +69,31 @@ entries:
   paperless:
   - apiVersion: v2
     appVersion: 2.16.2
+    created: "2025-06-02T07:44:51.407187178Z"
+    dependencies:
+    - name: common
+      repository: https://di0ik.github.io/helm-charts
+      version: 2.1.1
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 16.7.8
+    - condition: redis.enabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 21.1.11
+    description: Paperless - Index and archive all of your scanned paper documents
+    digest: f9716ace3ddd06080d6fb0e55bc18d1c573020abdc1495a78f3aa281bbf36716
+    home: https://github.com/di0ik/helm-charts/tree/main/helm/paperless
+    kubeVersion: '>=1.16.0-0'
+    name: paperless
+    sources:
+    - https://github.com/paperless-ngx/paperless-ngx
+    urls:
+    - https://github.com/DI0IK/helm-charts/releases/download/paperless-2.1.4/paperless-2.1.4.tgz
+    version: 2.1.4
+  - apiVersion: v2
+    appVersion: 2.16.2
     created: "2025-05-30T16:22:36.04138708Z"
     dependencies:
     - name: common
@@ -313,4 +338,4 @@ entries:
     urls:
     - https://github.com/DI0IK/helm-charts/releases/download/wireguard-0.0.1/wireguard-0.0.1.tgz
     version: 0.0.1
-generated: "2025-05-30T16:22:36.151102421Z"
+generated: "2025-06-02T07:44:51.407221502Z"
