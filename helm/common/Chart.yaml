@@ -2,7 +2,7 @@ apiVersion: v2
 name: common
 description: Function library for my charts based on the k8s-at-home common chart
 type: library
-version: 2.1.2
+version: 2.2.0
 kubeVersion: ">=1.16.0-0"
 keywords:
   - common
