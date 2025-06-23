@@ -2,6 +2,19 @@ apiVersion: v1
 entries:
   common:
   - apiVersion: v2
+    created: "2025-06-23T07:24:01.849157343Z"
+    description: Function library for my charts based on the k8s-at-home common chart
+    digest: 316db1dd60ae74b9738c1e07bd3d2ae9b276b73ebc1e7a19f494f2ee4bae7626
+    home: https://github.com/di0ik/helm-charts/tree/main/helm/common
+    keywords:
+    - common
+    kubeVersion: '>=1.16.0-0'
+    name: common
+    type: library
+    urls:
+    - https://github.com/DI0IK/helm-charts/releases/download/common-2.2.0/common-2.2.0.tgz
+    version: 2.2.0
+  - apiVersion: v2
     created: "2025-06-04T06:19:26.699862244Z"
     description: Function library for my charts based on the k8s-at-home common chart
     digest: 71a8b12e2688c0a65b47286c716c3eea1073fc78221e75d977ff4aa4d67adf37
@@ -391,4 +404,4 @@ entries:
     urls:
     - https://github.com/DI0IK/helm-charts/releases/download/wireguard-0.0.1/wireguard-0.0.1.tgz
     version: 0.0.1
-generated: "2025-06-16T11:08:46.868689714Z"
+generated: "2025-06-23T07:24:01.84920924Z"
