@@ -4,11 +4,11 @@ apiVersion: v2
 appVersion: "main"
 description: A Helm chart for WireGuard
 name: wireguard
-version: 0.2.1
+version: 0.3.0
 kubeVersion: ">=1.16.0-0"
 home: https://github.com/di0ik/helm-charts/tree/main/helm/wireguard
 sources:
 dependencies:
   - name: common
     repository: https://di0ik.github.io/helm-charts
-    version: 2.1.2
+    version: 2.3.1
